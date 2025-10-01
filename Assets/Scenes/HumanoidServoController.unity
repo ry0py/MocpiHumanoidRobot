@@ -271,7 +271,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   AvatarSettings:
   - MocopiAvatar: {fileID: 1395347192}
-    Port: 12531
+    Port: 12351
   IsReceivingOnEnable: 1
 --- !u!4 &417275141
 Transform:
@@ -737,7 +737,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b8c8d8173621d7748aaa46de148ce42f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  mocopiAvatar: {fileID: 0}
+  mocopiAvatar: {fileID: 1395347192}
 --- !u!4 &1223740815
 Transform:
   m_ObjectHideFlags: 0

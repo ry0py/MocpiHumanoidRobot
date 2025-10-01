@@ -1,4 +1,6 @@
 using UnityEngine;
+using System.Net.Sockets;
+using System.Text;
 using Mocopi.Receiver;
 
 namespace HumanoidRobot
@@ -6,6 +8,15 @@ namespace HumanoidRobot
     public class HumanoidServoController : MonoBehaviour
     {
         public MocopiAvatar mocopiAvatar;
+
+        private string host = "127.0.0.1";
+        private int port = 9000;
+        private UdpClient client;
+        void Start()
+        {
+            client = new UdpClient();
+            client.Connect(host, port);
+        }
 
         void Update()
         {
@@ -27,22 +38,13 @@ namespace HumanoidRobot
                 Transform rightLowerLeg = animator.GetBoneTransform(HumanBodyBones.RightLowerLeg);
                 Transform rightFoot = animator.GetBoneTransform(HumanBodyBones.RightFoot); // 2つの軸
 
-                if (leftUpperArm != null)
-                {
-                    Vector3 rotation = leftUpperArm.localRotation.eulerAngles;
-                    Debug.Log($"Left Upper Arm Rotation: {rotation}");
-
-                    // サーボ角度に変換
-                    float servoAngle = ConvertToServoAngle(rotation.x);
-                    // SendToServo(ServoID.LeftShoulder, servoAngle);
-                }
                 var servoJson = new JsonData.ServoJson
                 {
                     leftShoulder = leftShoulder != null ? ConvertToServoAngle(leftShoulder.localRotation.eulerAngles.x) : 90f,
-                    leftUpperArm = leftUpperArm != null ? ConvertToServoAngle(leftUpperArm.localRotation.eulerAngles.x) : 90f,
+                    leftUpperArm = leftUpperArm != null ? ConvertToServoAngle(leftUpperArm.localRotation.eulerAngles.z) : 90f,
                     leftLowerArm = leftLowerArm != null ? ConvertToServoAngle(leftLowerArm.localRotation.eulerAngles.x) : 90f,
                     rightShoulder = rightShoulder != null ? ConvertToServoAngle(rightShoulder.localRotation.eulerAngles.x) : 90f,
-                    rightUpperArm = rightUpperArm != null ? ConvertToServoAngle(rightUpperArm.localRotation.eulerAngles.x) : 90f,
+                    rightUpperArm = rightUpperArm != null ? ConvertToServoAngle(rightUpperArm.localRotation.eulerAngles.z) : 90f,
                     rightLowerArm = rightLowerArm != null ? ConvertToServoAngle(rightLowerArm.localRotation.eulerAngles.x) : 90f,
                     leftUpperLeg0 = leftUpperLeg != null ? ConvertToServoAngle(leftUpperLeg.localRotation.eulerAngles.x) : 90f,
                     leftUpperLeg1 = leftUpperLeg != null ? ConvertToServoAngle(leftUpperLeg.localRotation.eulerAngles.z) : 90f,
@@ -57,7 +59,13 @@ namespace HumanoidRobot
                 };
                 var json = JsonUtility.ToJson(servoJson);
                 Debug.Log(json);
+                var message = Encoding.UTF8.GetBytes(json);
+                client.Send(message, message.Length);
             }
+        }
+
+        private void OnDestroy() {
+            client.Close();
         }
 
         float ConvertToServoAngle(float unityAngle)

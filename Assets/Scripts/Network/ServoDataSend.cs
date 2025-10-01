@@ -5,7 +5,7 @@ using System.Text;
 
 public class ServoDataSend : MonoBehaviour
 {
-   private string host = "192.168.1.9";
+   private string host = "127.0.0.1";
    private int port = 9000;
    private UdpClient client;
 
