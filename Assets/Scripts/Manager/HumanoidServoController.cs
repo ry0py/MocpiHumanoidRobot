@@ -24,38 +24,24 @@ namespace HumanoidRobot
             {
                 Animator animator = mocopiAvatar.Animator;
 
-                // HumanBodyBonesからHumanoidようにボーンを限定する
-                Transform leftShoulder = animator.GetBoneTransform(HumanBodyBones.LeftShoulder);
-                Transform leftUpperArm = animator.GetBoneTransform(HumanBodyBones.LeftUpperArm);
-                Transform leftLowerArm = animator.GetBoneTransform(HumanBodyBones.LeftLowerArm);
-                Transform rightShoulder = animator.GetBoneTransform(HumanBodyBones.RightShoulder);
-                Transform rightUpperArm = animator.GetBoneTransform(HumanBodyBones.RightUpperArm);
-                Transform rightLowerArm = animator.GetBoneTransform(HumanBodyBones.RightLowerArm);
-                Transform leftUpperLeg = animator.GetBoneTransform(HumanBodyBones.LeftUpperLeg); // 2つの軸
-                Transform leftLowerLeg = animator.GetBoneTransform(HumanBodyBones.LeftLowerLeg);
-                Transform leftFoot = animator.GetBoneTransform(HumanBodyBones.LeftFoot); // 2つの軸
-                Transform rightUpperLeg = animator.GetBoneTransform(HumanBodyBones.RightUpperLeg); // 2つの軸
-                Transform rightLowerLeg = animator.GetBoneTransform(HumanBodyBones.RightLowerLeg);
-                Transform rightFoot = animator.GetBoneTransform(HumanBodyBones.RightFoot); // 2つの軸
-
                 var servoJson = new JsonData.ServoJson
                 {
-                    leftShoulder = leftShoulder != null ? ConvertToServoAngle(leftShoulder.localRotation.eulerAngles.x) : 90f,
-                    leftUpperArm = leftUpperArm != null ? ConvertToServoAngle(leftUpperArm.localRotation.eulerAngles.z) : 90f,
-                    leftLowerArm = leftLowerArm != null ? ConvertToServoAngle(leftLowerArm.localRotation.eulerAngles.x) : 90f,
-                    rightShoulder = rightShoulder != null ? ConvertToServoAngle(rightShoulder.localRotation.eulerAngles.x) : 90f,
-                    rightUpperArm = rightUpperArm != null ? ConvertToServoAngle(rightUpperArm.localRotation.eulerAngles.z) : 90f,
-                    rightLowerArm = rightLowerArm != null ? ConvertToServoAngle(rightLowerArm.localRotation.eulerAngles.x) : 90f,
-                    leftUpperLeg0 = leftUpperLeg != null ? ConvertToServoAngle(leftUpperLeg.localRotation.eulerAngles.x) : 90f,
-                    leftUpperLeg1 = leftUpperLeg != null ? ConvertToServoAngle(leftUpperLeg.localRotation.eulerAngles.z) : 90f,
-                    leftLowerLeg = leftLowerLeg != null ? ConvertToServoAngle(leftLowerLeg.localRotation.eulerAngles.x) : 90f,
-                    leftFoot0 = leftFoot != null ? ConvertToServoAngle(leftFoot.localRotation.eulerAngles.x) : 90f,
-                    leftFoot1 = leftFoot != null ? ConvertToServoAngle(leftFoot.localRotation.eulerAngles.z) : 90f,
-                    rightUpperLeg0 = rightUpperLeg != null ? ConvertToServoAngle(rightUpperLeg.localRotation.eulerAngles.x) : 90f,
-                    rightUpperLeg1 = rightUpperLeg != null ? ConvertToServoAngle(rightUpperLeg.localRotation.eulerAngles.z) : 90f,
-                    rightLowerLeg = rightLowerLeg != null ? ConvertToServoAngle(rightLowerLeg.localRotation.eulerAngles.x) : 90f,
-                    rightFoot0 = rightFoot != null ? ConvertToServoAngle(rightFoot.localRotation.eulerAngles.x) : 90f,
-                    rightFoot1 = rightFoot != null ? ConvertToServoAngle(rightFoot.localRotation.eulerAngles.z) : 90f,
+                    leftShoulder = ConvertToServoAngle(animator.GetBoneTransform(HumanBodyBones.LeftUpperArm).localEulerAngles.x),
+                    leftUpperArm = ConvertToServoAngle(animator.GetBoneTransform(HumanBodyBones.LeftUpperArm).localEulerAngles.z),
+                    leftLowerArm = ConvertToServoAngle(animator.GetBoneTransform(HumanBodyBones.LeftLowerArm).localEulerAngles.y),
+                    rightShoulder = ConvertToServoAngle(animator.GetBoneTransform(HumanBodyBones.RightShoulder).localEulerAngles.x),
+                    rightUpperArm = ConvertToServoAngle(animator.GetBoneTransform(HumanBodyBones.RightUpperArm).localEulerAngles.z),
+                    rightLowerArm = ConvertToServoAngle(animator.GetBoneTransform(HumanBodyBones.RightLowerArm).localEulerAngles.y),
+                    leftUpperLeg0 = ConvertToServoAngle(animator.GetBoneTransform(HumanBodyBones.LeftUpperLeg).localEulerAngles.x),
+                    leftUpperLeg1 = ConvertToServoAngle(animator.GetBoneTransform(HumanBodyBones.LeftUpperLeg).localEulerAngles.z),
+                    leftLowerLeg = ConvertToServoAngle(animator.GetBoneTransform(HumanBodyBones.LeftLowerLeg).localEulerAngles.x),
+                    leftFoot0 = ConvertToServoAngle(animator.GetBoneTransform(HumanBodyBones.LeftFoot).localEulerAngles.x),
+                    leftFoot1 = ConvertToServoAngle(animator.GetBoneTransform(HumanBodyBones.LeftFoot).localEulerAngles.z),
+                    rightUpperLeg0 = ConvertToServoAngle(animator.GetBoneTransform(HumanBodyBones.RightUpperLeg).localEulerAngles.x),
+                    rightUpperLeg1 = ConvertToServoAngle(animator.GetBoneTransform(HumanBodyBones.RightUpperLeg).localEulerAngles.z),
+                    rightLowerLeg = ConvertToServoAngle(animator.GetBoneTransform(HumanBodyBones.RightLowerLeg).localEulerAngles.x),
+                    rightFoot0 = ConvertToServoAngle(animator.GetBoneTransform(HumanBodyBones.RightFoot).localEulerAngles.x),
+                    rightFoot1 = ConvertToServoAngle(animator.GetBoneTransform(HumanBodyBones.RightFoot).localEulerAngles.z),
                 };
                 var json = JsonUtility.ToJson(servoJson);
                 Debug.Log(json);
