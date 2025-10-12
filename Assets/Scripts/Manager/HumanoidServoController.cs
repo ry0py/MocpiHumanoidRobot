@@ -26,25 +26,28 @@ namespace HumanoidRobot
 
                 var servoJson = new JsonData.ServoJson
                 {
-                    leftShoulder = ConvertToServoAngle(animator.GetBoneTransform(HumanBodyBones.LeftUpperArm).localEulerAngles.x),
-                    leftUpperArm = ConvertToServoAngle(animator.GetBoneTransform(HumanBodyBones.LeftUpperArm).localEulerAngles.z),
-                    leftLowerArm = ConvertToServoAngle(animator.GetBoneTransform(HumanBodyBones.LeftLowerArm).localEulerAngles.y),
-                    rightShoulder = ConvertToServoAngle(animator.GetBoneTransform(HumanBodyBones.RightShoulder).localEulerAngles.x),
-                    rightUpperArm = ConvertToServoAngle(animator.GetBoneTransform(HumanBodyBones.RightUpperArm).localEulerAngles.z),
-                    rightLowerArm = ConvertToServoAngle(animator.GetBoneTransform(HumanBodyBones.RightLowerArm).localEulerAngles.y),
-                    leftUpperLeg0 = ConvertToServoAngle(animator.GetBoneTransform(HumanBodyBones.LeftUpperLeg).localEulerAngles.x),
-                    leftUpperLeg1 = ConvertToServoAngle(animator.GetBoneTransform(HumanBodyBones.LeftUpperLeg).localEulerAngles.z),
-                    leftLowerLeg = ConvertToServoAngle(animator.GetBoneTransform(HumanBodyBones.LeftLowerLeg).localEulerAngles.x),
-                    leftFoot0 = ConvertToServoAngle(animator.GetBoneTransform(HumanBodyBones.LeftFoot).localEulerAngles.x),
-                    leftFoot1 = ConvertToServoAngle(animator.GetBoneTransform(HumanBodyBones.LeftFoot).localEulerAngles.z),
-                    rightUpperLeg0 = ConvertToServoAngle(animator.GetBoneTransform(HumanBodyBones.RightUpperLeg).localEulerAngles.x),
-                    rightUpperLeg1 = ConvertToServoAngle(animator.GetBoneTransform(HumanBodyBones.RightUpperLeg).localEulerAngles.z),
-                    rightLowerLeg = ConvertToServoAngle(animator.GetBoneTransform(HumanBodyBones.RightLowerLeg).localEulerAngles.x),
-                    rightFoot0 = ConvertToServoAngle(animator.GetBoneTransform(HumanBodyBones.RightFoot).localEulerAngles.x),
-                    rightFoot1 = ConvertToServoAngle(animator.GetBoneTransform(HumanBodyBones.RightFoot).localEulerAngles.z),
+                    Hips = animator.GetBoneTransform(HumanBodyBones.Hips).localRotation.eulerAngles,
+                    LeftUpperLeg = animator.GetBoneTransform(HumanBodyBones.LeftUpperLeg).localRotation.eulerAngles,
+                    RightUpperLeg = animator.GetBoneTransform(HumanBodyBones.RightUpperLeg).localRotation.eulerAngles,
+                    LeftLowerLeg = animator.GetBoneTransform(HumanBodyBones.LeftLowerLeg).localRotation.eulerAngles,
+                    RightLowerLeg = animator.GetBoneTransform(HumanBodyBones.RightLowerLeg).localRotation.eulerAngles,
+                    LeftFoot = animator.GetBoneTransform(HumanBodyBones.LeftFoot).localRotation.eulerAngles,
+                    RightFoot = animator.GetBoneTransform(HumanBodyBones.RightFoot).localRotation.eulerAngles,
+                    Spine = animator.GetBoneTransform(HumanBodyBones.Spine).localRotation.eulerAngles,
+                    Chest = animator.GetBoneTransform(HumanBodyBones.Chest).localRotation.eulerAngles,
+                    UpperChest = animator.GetBoneTransform(HumanBodyBones.UpperChest).localRotation.eulerAngles,
+                    Neck = animator.GetBoneTransform(HumanBodyBones.Neck).localRotation.eulerAngles,
+                    Head = animator.GetBoneTransform(HumanBodyBones.Head).localRotation.eulerAngles,
+                    LeftShoulder = animator.GetBoneTransform(HumanBodyBones.LeftShoulder).localRotation.eulerAngles,
+                    RightShoulder = animator.GetBoneTransform(HumanBodyBones.RightShoulder).localRotation.eulerAngles,
+                    LeftUpperArm = animator.GetBoneTransform(HumanBodyBones.LeftUpperArm).localRotation.eulerAngles,
+                    RightUpperArm = animator.GetBoneTransform(HumanBodyBones.RightUpperArm).localRotation.eulerAngles,
+                    LeftLowerArm = animator.GetBoneTransform(HumanBodyBones.LeftLowerArm).localRotation.eulerAngles,
+                    RightLowerArm = animator.GetBoneTransform(HumanBodyBones.RightLowerArm).localRotation.eulerAngles,
+                    LeftHand = animator.GetBoneTransform(HumanBodyBones.LeftHand).localRotation.eulerAngles,
+                    RightHand = animator.GetBoneTransform(HumanBodyBones.RightHand).localRotation.eulerAngles,
                 };
                 var json = JsonUtility.ToJson(servoJson);
-                Debug.Log(json);
                 var message = Encoding.UTF8.GetBytes(json);
                 client.Send(message, message.Length);
             }
@@ -52,13 +55,6 @@ namespace HumanoidRobot
 
         private void OnDestroy() {
             client.Close();
-        }
-
-        float ConvertToServoAngle(float unityAngle)
-        {
-            // 角度変換とクランプ処理
-            if (unityAngle > 180f) unityAngle -= 360f;
-            return Mathf.Clamp(unityAngle + 90f, 0f, 180f);
         }
     }
 }
