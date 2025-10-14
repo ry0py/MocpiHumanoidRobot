@@ -26,31 +26,37 @@ namespace HumanoidRobot
 
                 var servoJson = new JsonData.ServoJson
                 {
-                    Hips = animator.GetBoneTransform(HumanBodyBones.Hips).localRotation.eulerAngles,
-                    LeftUpperLeg = animator.GetBoneTransform(HumanBodyBones.LeftUpperLeg).localRotation.eulerAngles,
-                    RightUpperLeg = animator.GetBoneTransform(HumanBodyBones.RightUpperLeg).localRotation.eulerAngles,
-                    LeftLowerLeg = animator.GetBoneTransform(HumanBodyBones.LeftLowerLeg).localRotation.eulerAngles,
-                    RightLowerLeg = animator.GetBoneTransform(HumanBodyBones.RightLowerLeg).localRotation.eulerAngles,
-                    LeftFoot = animator.GetBoneTransform(HumanBodyBones.LeftFoot).localRotation.eulerAngles,
-                    RightFoot = animator.GetBoneTransform(HumanBodyBones.RightFoot).localRotation.eulerAngles,
-                    Spine = animator.GetBoneTransform(HumanBodyBones.Spine).localRotation.eulerAngles,
-                    Chest = animator.GetBoneTransform(HumanBodyBones.Chest).localRotation.eulerAngles,
-                    UpperChest = animator.GetBoneTransform(HumanBodyBones.UpperChest).localRotation.eulerAngles,
-                    Neck = animator.GetBoneTransform(HumanBodyBones.Neck).localRotation.eulerAngles,
-                    Head = animator.GetBoneTransform(HumanBodyBones.Head).localRotation.eulerAngles,
-                    LeftShoulder = animator.GetBoneTransform(HumanBodyBones.LeftShoulder).localRotation.eulerAngles,
-                    RightShoulder = animator.GetBoneTransform(HumanBodyBones.RightShoulder).localRotation.eulerAngles,
-                    LeftUpperArm = animator.GetBoneTransform(HumanBodyBones.LeftUpperArm).localRotation.eulerAngles,
-                    RightUpperArm = animator.GetBoneTransform(HumanBodyBones.RightUpperArm).localRotation.eulerAngles,
-                    LeftLowerArm = animator.GetBoneTransform(HumanBodyBones.LeftLowerArm).localRotation.eulerAngles,
-                    RightLowerArm = animator.GetBoneTransform(HumanBodyBones.RightLowerArm).localRotation.eulerAngles,
-                    LeftHand = animator.GetBoneTransform(HumanBodyBones.LeftHand).localRotation.eulerAngles,
-                    RightHand = animator.GetBoneTransform(HumanBodyBones.RightHand).localRotation.eulerAngles,
+                    Hips = ToRightHanded(animator.GetBoneTransform(HumanBodyBones.Hips).position),
+                    LeftUpperLeg = ToRightHanded(animator.GetBoneTransform(HumanBodyBones.LeftUpperLeg).position),
+                    RightUpperLeg = ToRightHanded(animator.GetBoneTransform(HumanBodyBones.RightUpperLeg).position),
+                    LeftLowerLeg = ToRightHanded(animator.GetBoneTransform(HumanBodyBones.LeftLowerLeg).position),
+                    RightLowerLeg = ToRightHanded(animator.GetBoneTransform(HumanBodyBones.RightLowerLeg).position),
+                    LeftFoot = ToRightHanded(animator.GetBoneTransform(HumanBodyBones.LeftFoot).position),
+                    RightFoot = ToRightHanded(animator.GetBoneTransform(HumanBodyBones.RightFoot).position),
+                    Spine = ToRightHanded(animator.GetBoneTransform(HumanBodyBones.Spine).position),
+                    Chest = ToRightHanded(animator.GetBoneTransform(HumanBodyBones.Chest).position),
+                    UpperChest = ToRightHanded(animator.GetBoneTransform(HumanBodyBones.UpperChest).position),
+                    Neck = ToRightHanded(animator.GetBoneTransform(HumanBodyBones.Neck).position),
+                    Head = ToRightHanded(animator.GetBoneTransform(HumanBodyBones.Head).position),
+                    LeftShoulder = ToRightHanded(animator.GetBoneTransform(HumanBodyBones.LeftShoulder).position),
+                    RightShoulder = ToRightHanded(animator.GetBoneTransform(HumanBodyBones.RightShoulder).position),
+                    LeftUpperArm = ToRightHanded(animator.GetBoneTransform(HumanBodyBones.LeftUpperArm).position),
+                    RightUpperArm = ToRightHanded(animator.GetBoneTransform(HumanBodyBones.RightUpperArm).position),
+                    LeftLowerArm = ToRightHanded(animator.GetBoneTransform(HumanBodyBones.LeftLowerArm).position),
+                    RightLowerArm = ToRightHanded(animator.GetBoneTransform(HumanBodyBones.RightLowerArm).position),
+                    LeftHand = ToRightHanded(animator.GetBoneTransform(HumanBodyBones.LeftHand).position),
+                    RightHand = ToRightHanded(animator.GetBoneTransform(HumanBodyBones.RightHand).position),
                 };
+                Debug.Log("左腕: " + servoJson.LeftLowerArm + " 左手: " + servoJson.LeftHand+ "差分は" + (servoJson.LeftHand - servoJson.LeftLowerArm));
                 var json = JsonUtility.ToJson(servoJson);
                 var message = Encoding.UTF8.GetBytes(json);
                 client.Send(message, message.Length);
             }
+        }
+
+        private static Vector3 ToRightHanded(Vector3 unityPosition)
+        {
+            return new Vector3(-unityPosition.x, unityPosition.y, unityPosition.z);
         }
 
         private void OnDestroy() {
