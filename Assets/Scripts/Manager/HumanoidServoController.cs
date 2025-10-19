@@ -56,7 +56,7 @@ namespace HumanoidRobot
 
         private static Vector3 ToRightHanded(Vector3 unityPosition)
         {
-            return new Vector3(-unityPosition.x, unityPosition.y, unityPosition.z);
+            return new Vector3(unityPosition.z, -unityPosition.x, unityPosition.y);
         }
 
         private void OnDestroy() {
